@@ -197,7 +197,7 @@ class LoggerAbstractFactoryTest extends TestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Logger handler "TestHandler" does not exists.
      */
-    public function testCreateLoggerWithHandlerConfigFailsBecauseOfNotSpecifiedClassMissing()
+    public function testCreateLoggerWithHandlerConfigFailsBecauseOfSpecifiedClassMissing()
     {
         $config = [
             'monolog' => [
