@@ -20,13 +20,27 @@ class ConfigProvider
             'dependencies' => $this->getDependencies(),
 
             // config key to add custom handler/formatter plugins to monolog plugin managers
-            'monolog' => [
-                'handler_plugin_manager' => [
+            'monolog' => $this->getMonologPluginManagerConfig(),
+        ];
+    }
 
-                ],
-                'formatter_plugin_manager' => [
+    public function getModuleConfig()
+    {
+        return [
+            'service_manager' => $this->getDependencies(),
+            'monolog' => $this->getMonologPluginManagerConfig()
+        ];
+    }
 
-                ],
+    private function getMonologPluginManagerConfig()
+    {
+        return [
+            'handler_plugin_manager' => [
+
+            ],
+
+            'formatter_plugin_manager' => [
+
             ],
         ];
     }

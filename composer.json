@@ -1,6 +1,6 @@
 {
     "name": "dwendrich/monolog-config",
-    "description": "Simply integrate configurable monolog instances via zend servicemanager.",
+    "description": "Simply integrate configurable monolog instances via zend-servicemanager.",
     "type": "library",
     "keywords": [
         "zendframework", "zend servicemanager", "monolog", "logger", "log"
