@@ -42,6 +42,5 @@ class HandlerPluginManagerFactory implements FactoryInterface
                 ? $config['monolog']['handler_plugin_manager']
                 : []
         );
-
     }
 }

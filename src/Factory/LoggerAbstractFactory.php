@@ -93,8 +93,8 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
          * If handler configuration is provided, create and push
          * handler to logger instance.
          */
-        if ( isset($config['handlers']) && is_array($config['handlers']) ) {
-            foreach ( $config['handlers'] as $handler ) {
+        if (isset($config['handlers']) && is_array($config['handlers'])) {
+            foreach ($config['handlers'] as $handler) {
                 $logger->pushHandler($this->createHandler($handler));
             }
         }
@@ -103,8 +103,8 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
          * If processor configuration is provided, create and push
          * processor to logger instance.
          */
-        if ( isset($config['processors']) && is_array($config['processors']) ) {
-            foreach ( $config['processors'] as $processor ) {
+        if (isset($config['processors']) && is_array($config['processors'])) {
+            foreach ($config['processors'] as $processor) {
                 $logger->pushProcessor($this->createProcessor($processor));
             }
         }
@@ -114,23 +114,23 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
 
     private function createHandler($handler)
     {
-        if ( $handler instanceof HandlerInterface ) {
+        if ($handler instanceof HandlerInterface) {
             return $handler;
         }
 
-        if ( !is_array($handler) ) {
+        if (!is_array($handler)) {
             throw new \InvalidArgumentException(
                 'Handler configuration must be provided as array.'
             );
         }
 
-        if ( !isset($handler['class']) ) {
+        if (!isset($handler['class'])) {
             throw new \InvalidArgumentException(
                 'You must provide a handler class.'
             );
         }
 
-        if ( !class_exists($handler['class']) ) {
+        if (!class_exists($handler['class'])) {
             throw new \InvalidArgumentException(sprintf(
                 'Logger handler "%s" does not exists.',
                 $handler['class']
@@ -139,7 +139,7 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
 
         $instance = $this->createInstance($handler, $this->handlerPluginManager);
 
-        if ( isset($handler['formatter']) ) {
+        if (isset($handler['formatter'])) {
             $formatter = $this->createFormatter($handler['formatter']);
             $instance->setFormatter($formatter);
         }
@@ -149,23 +149,23 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
 
     private function createFormatter($formatter)
     {
-        if ( $formatter instanceof FormatterInterface ) {
+        if ($formatter instanceof FormatterInterface) {
             return $formatter;
         }
 
-        if ( !is_array($formatter) ) {
+        if (!is_array($formatter)) {
             throw new \InvalidArgumentException(
                 'Formatter configuration must be provided as array.'
             );
         }
 
-        if ( !isset($formatter['class']) ) {
+        if (!isset($formatter['class'])) {
             throw new \InvalidArgumentException(
                 'You must provide a formatter class.'
             );
         }
 
-        if ( !class_exists($formatter['class']) ) {
+        if (!class_exists($formatter['class'])) {
             throw new \InvalidArgumentException(sprintf(
                 'Logger formatter "%s" does not exists',
                 $formatter['class']
@@ -182,12 +182,12 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
             : [];
 
         // try to instantiate via plugin manager
-        if ( $pluginManager->has($config['class']) ) {
+        if ($pluginManager->has($config['class'])) {
             return $pluginManager->get($config['class'], $options);
         }
 
         // if options, try to instantiate via reflection
-        if ( !empty($options) ) {
+        if (!empty($options)) {
             $reflection = new \ReflectionClass($config['class']);
             return call_user_func_array([$reflection, 'newInstance'], $options);
         }
@@ -199,12 +199,12 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
 
     private function createProcessor($processor)
     {
-        if ( is_callable($processor) ) {
+        if (is_callable($processor)) {
             // nothing to do
             return $processor;
         }
 
-        if ( is_string($processor) && class_exists($processor) ) {
+        if (is_string($processor) && class_exists($processor)) {
             return new $processor();
         }
 
