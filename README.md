@@ -9,7 +9,7 @@ Based on https://github.com/neeckeloo/MonologModule.
 * [Zend Framework Service Manager component 3.0.3 or higher](https://github.com/zendframework/zend-servicemanager)
 
 ## Installation
-MonologConfig can be installed with Composer. For information on how to get composer or how to use it, please refer to
+MonologConfig can be installed with composer. For information on how to get composer or how to use it, please refer to
 [getcomposer.org](http://getcomposer.org).
 
 Installation via command line:
@@ -49,13 +49,13 @@ $aggregator = new ConfigAggregator([
 ], $cacheConfig['config_cache_path']);
 ```
 In case you implement a zend-framework application, add `MonologConfig` key to `config/modules.config.php` or
-`config/application.config.php` respectively.
+the modules section in `config/application.config.php` respectively.
 
 ## Usage
 ### Logger configuration
 To configure a logger you simply add a key into the `monolog` config section below the `logger` key.
 
-For example, a logger with the key `Application\Log` can be configured like this:
+For example, a logger with the key `Application\Log` can be set up like this:
 ```php
 return [
     'monolog' => [
