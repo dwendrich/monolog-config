@@ -53,7 +53,7 @@ the modules section in `config/application.config.php` respectively.
 
 ## Usage
 ### Logger configuration
-To configure a logger you simply add a key into the `monolog` config section below the `logger` key.
+In your application or module configuration simply add a key to the `monolog` section below the `logger` key.
 
 For example, a logger with the key `Application\Log` can be set up like this:
 ```php
