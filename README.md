@@ -1,14 +1,14 @@
-#monolog-config
+# monolog-config
 Simply integrate configurable monolog instances into applications using zend-servicemanager.
 
 Based on https://github.com/neeckeloo/MonologModule. 
 
-##Requirements
+## Requirements
 * PHP 5.6, PHP 7.0 or higher
 * [Monolog 1.11 or higher](https://www.github.com/Seldaek/monolog)
 * [Zend Framework Service Manager component 3.0.3 or higher](https://github.com/zendframework/zend-servicemanager)
 
-##Installation
+## Installation
 MonologConfig can be installed with Composer. For information on how to get composer or how to use it, please refer to
 [getcomposer.org](http://getcomposer.org).
 
@@ -51,8 +51,8 @@ $aggregator = new ConfigAggregator([
 In case you implement a zend-framework application, add `MonologConfig` key to `config/modules.config.php` or
 `config/application.config.php` respectively.
 
-##Usage
-###Logger configuration
+## Usage
+### Logger configuration
 To configure a logger you simply add a key into the `monolog` config section below the `logger` key.
 
 For example, a logger with the key `Application\Log` can be configured like this:
@@ -71,7 +71,7 @@ return [
 The minimum requirement to define a logger is the `channel` attribute. Channels are used to assign log records to
 certain parts of the application.
 
-###Handler configuration
+### Handler configuration
 The logger by itself does not know how to handle log records. This is delegated to one or more handlers. For further
 information about handlers, formatters and their usage please refer to the
 [monolog documentation](https://github.com/Seldaek/monolog).
@@ -101,7 +101,7 @@ return [
 The handler definition has to either be an array containing at least a `class` attribute or an instance of
 `Monolog\Handler\HandlerInterface`.
 
-###Adding processors
+### Adding processors
 Processors allow to add extra information to the log record. The following code illustrates how to add processors:
 ```php
 return [
@@ -130,7 +130,7 @@ return [
 To add a processor, you can use a string to create an instance or pass an object. Processors have to be callable in
 order to work with monolog.
 
-###Adding formatters
+### Adding formatters
 Formatters are used to format the output of a log record. They can be attached to a handler.
 ```php
 return [
@@ -185,7 +185,7 @@ return [
     ],
 ];
 ```
-###Retrieving a logger instance
+### Retrieving a logger instance
 You can retrieve a logger instance from zend-servicemanager by its configuration key, for example:
 ```php
 /** @var Zend\ServiceManager\ServiceManager $container */
