@@ -37,8 +37,9 @@
             "@cs-check",
             "@test"
         ],
-        "cs-check": "phpcs src/",
+        "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit tests/"
+        "test": "phpunit",
+        "test-coverage": "phpunit --colors=never --coverage-text"
     }
 }
