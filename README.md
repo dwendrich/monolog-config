@@ -1,6 +1,10 @@
 # monolog-config
 Simply integrate configurable monolog instances into applications using zend-servicemanager.
 
+[![Build Status](https://travis-ci.org/dwendrich/monolog-config.svg?branch=master)](https://travis-ci.org/dwendrich/monolog-config)
+[![Coverage Status](https://img.shields.io/codecov/c/github/dwendrich/monolog-config.svg)](https://codecov.io/gh/dwendrich/monolog-config)
+[![Latest Stable Version](http://img.shields.io/packagist/v/dwendrich/monolog-config.svg?style=flat)](https://packagist.org/packages/dwendrich/monolog-config)
+
 Based on https://github.com/neeckeloo/MonologModule. 
 
 ## Requirements
