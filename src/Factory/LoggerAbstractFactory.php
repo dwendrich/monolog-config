@@ -199,17 +199,23 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
 
     private function createProcessor($processor)
     {
+        if (is_string($processor)) {
+            if (!class_exists($processor)) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Processor class "%s" does not exists',
+                    $processor
+                ));
+            }
+
+            $processor = new $processor();
+        }
+
         if (is_callable($processor)) {
-            // nothing to do
             return $processor;
         }
 
-        if (is_string($processor) && class_exists($processor)) {
-            return new $processor();
-        }
-
         throw new \InvalidArgumentException(
-            'Processor must be a callable or a fully qualified class name'
+            'Processors must be provided as class name or a callable instance.'
         );
     }
 }

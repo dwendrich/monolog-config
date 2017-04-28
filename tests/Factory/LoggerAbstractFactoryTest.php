@@ -341,6 +341,161 @@ class LoggerAbstractFactoryTest extends TestCase
         $this->assertInstanceOf(\Monolog\Formatter\LineFormatter::class, $handler->getFormatter());
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Formatter configuration must be provided as array.
+     */
+    public function testCreateLoggerWithFormatterConfigThrowsException()
+    {
+        $config = [
+            'monolog' => [
+                'logger' => [
+                    'foo' => [
+                        'channel' => 'default',
+                        'handlers' => [
+                            [
+                                'class' => StreamHandler::class,
+                                'options' => [
+                                    'path' => 'data/log/stream.log',
+                                    'level' => Logger::DEBUG
+                                ],
+                                'formatter' => LineFormatter::class,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $container = $this->prophesize(ServiceManager::class);
+
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn($config);
+
+        $container->get('MonologConfig\Service\HandlerPluginManager')
+            ->willReturn(new PluginManager(
+                HandlerInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $container->get('MonologConfig\Service\FormatterPluginManager')
+            ->willReturn(new PluginManager(
+                FormatterInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $abstractFactory = new LoggerAbstractFactory();
+
+        /** @var Logger $logger */
+        $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage You must provide a formatter class.
+     */
+    public function testCreateLoggerWithEmptyFormatterConfigThrowsException()
+    {
+        $config = [
+            'monolog' => [
+                'logger' => [
+                    'foo' => [
+                        'channel' => 'default',
+                        'handlers' => [
+                            [
+                                'class' => StreamHandler::class,
+                                'options' => [
+                                    'path' => 'data/log/stream.log',
+                                    'level' => Logger::DEBUG
+                                ],
+                                'formatter' => [],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $container = $this->prophesize(ServiceManager::class);
+
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn($config);
+
+        $container->get('MonologConfig\Service\HandlerPluginManager')
+            ->willReturn(new PluginManager(
+                HandlerInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $container->get('MonologConfig\Service\FormatterPluginManager')
+            ->willReturn(new PluginManager(
+                FormatterInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $abstractFactory = new LoggerAbstractFactory();
+
+        /** @var Logger $logger */
+        $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Logger formatter "NotExistentPhantasyFormatterClassName" does not exists
+     */
+    public function testCreateLoggerWithFormatterConfigAndNotExistentClassThrowsException()
+    {
+        $config = [
+            'monolog' => [
+                'logger' => [
+                    'foo' => [
+                        'channel' => 'default',
+                        'handlers' => [
+                            [
+                                'class' => StreamHandler::class,
+                                'options' => [
+                                    'path' => 'data/log/stream.log',
+                                    'level' => Logger::DEBUG
+                                ],
+                                'formatter' => [
+                                    'class' => 'NotExistentPhantasyFormatterClassName',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        $container = $this->prophesize(ServiceManager::class);
+
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn($config);
+
+        $container->get('MonologConfig\Service\HandlerPluginManager')
+            ->willReturn(new PluginManager(
+                HandlerInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $container->get('MonologConfig\Service\FormatterPluginManager')
+            ->willReturn(new PluginManager(
+                FormatterInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $abstractFactory = new LoggerAbstractFactory();
+
+        /** @var Logger $logger */
+        $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
+    }
+
     public function testCreateServiceWithFormatterInstanceWorks()
     {
         $config = [
@@ -442,5 +597,103 @@ class LoggerAbstractFactoryTest extends TestCase
         $processors = $logger->getProcessors();
         $this->assertTrue(is_array($processors));
         $this->assertEquals(2, count($processors));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Processors must be provided as class name or a callable instance.
+     */
+    public function testCreateLoggerWithConfiguredProcessorsThrowsException()
+    {
+        $config = [
+            'monolog' => [
+                'logger' => [
+                    'foo' => [
+                        'channel' => 'default',
+                        'handlers' => [
+                            new NullHandler(),
+                        ],
+                        'processors' => [
+                            UidProcessor::class,
+                            WebProcessor::class,
+                            \stdClass::class
+                        ]
+                    ],
+                ],
+            ],
+        ];
+
+        $container = $this->prophesize(ServiceManager::class);
+
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn($config);
+
+        $container->get('MonologConfig\Service\HandlerPluginManager')
+            ->willReturn(new PluginManager(
+                HandlerInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $container->get('MonologConfig\Service\FormatterPluginManager')
+            ->willReturn(new PluginManager(
+                FormatterInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $abstractFactory = new LoggerAbstractFactory();
+
+        /** @var Logger $logger */
+        $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Processor class "NotExistentPhantasyProcessorClassName" does not exists
+     */
+    public function testCreateLoggerWithConfiguredNonExistentProcessorsThrowsException()
+    {
+        $config = [
+            'monolog' => [
+                'logger' => [
+                    'foo' => [
+                        'channel' => 'default',
+                        'handlers' => [
+                            new NullHandler(),
+                        ],
+                        'processors' => [
+                            UidProcessor::class,
+                            WebProcessor::class,
+                            'NotExistentPhantasyProcessorClassName',
+                        ]
+                    ],
+                ],
+            ],
+        ];
+
+        $container = $this->prophesize(ServiceManager::class);
+
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn($config);
+
+        $container->get('MonologConfig\Service\HandlerPluginManager')
+            ->willReturn(new PluginManager(
+                HandlerInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $container->get('MonologConfig\Service\FormatterPluginManager')
+            ->willReturn(new PluginManager(
+                FormatterInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $abstractFactory = new LoggerAbstractFactory();
+
+        /** @var Logger $logger */
+        $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
     }
 }
