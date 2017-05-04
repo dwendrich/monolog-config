@@ -11,6 +11,8 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Monolog\Processor\WebProcessor;
 use MonologConfig\Factory\LoggerAbstractFactory;
+use MonologConfig\Handler\RotatingFileSizeHandler;
+use MonologConfig\Handler\Factory\RotatingFileSizeHandlerFactory;
 use MonologConfig\Service\PluginManager;
 use PHPUnit\Framework\TestCase;
 use Zend\ServiceManager\ServiceManager;
@@ -49,6 +51,66 @@ class LoggerAbstractFactoryTest extends TestCase
         $abstractFactory = new LoggerAbstractFactory();
         $bool = $abstractFactory->canCreate($container->reveal(), $name);
         $this->assertSame($expected, $bool);
+    }
+
+    public function testCreateLoggerWithHandlerUsingPluginManager()
+    {
+        $config = [
+            'monolog' => [
+                'logger' => [
+                    'foo' => [
+                        'channel' => 'default',
+                        'handlers' => [
+                            [
+                                'class' => RotatingFileSizeHandler::class,
+                                'options' => [
+                                    'filename' => 'data/log/stream.log',
+                                    'filesize' => 1.0,
+                                    'level' => Logger::DEBUG
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                'handler_plugin_manager' => [
+                    'factories' => [
+                        RotatingFileSizeHandler::class => RotatingFileSizeHandlerFactory::class,
+                    ],
+                ],
+            ],
+        ];
+
+        $container = $this->prophesize(ServiceManager::class);
+
+        $container->has('config')->willReturn(true);
+        $container->get('config')->willReturn($config);
+
+        $container->get('MonologConfig\Service\HandlerPluginManager')
+            ->willReturn(new PluginManager(
+                HandlerInterface::class,
+                $container->reveal(),
+                $config['monolog']['handler_plugin_manager']
+            ));
+
+        $container->get('MonologConfig\Service\FormatterPluginManager')
+            ->willReturn(new PluginManager(
+                FormatterInterface::class,
+                $container->reveal(),
+                []
+            ));
+
+        $abstractFactory = new LoggerAbstractFactory();
+
+        /** @var Logger $logger */
+        $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
+        $this->assertInstanceOf(\Monolog\Logger::class, $logger);
+
+        $handlers = $logger->getHandlers();
+        $this->assertTrue(is_array($handlers));
+        $this->assertEquals(1, count($handlers));
+
+        $handler = array_pop($handlers);
+        $this->assertInstanceOf(RotatingFileSizeHandler::class, $handler);
     }
 
     public function testCreateLoggerWithHandlerConfigWorks()
