@@ -89,10 +89,12 @@ return [
                 'channel' => 'default',
                 'handlers' => [
                     'stream' => [
-                        'class' => StreamHandler::class,
+                        'class' => \MonologConfig\Handler\RotatingFileSizeHandler::class,
                         'options' => [
-                            'path' => 'data/log/application.log',
-                            'level' => Logger::DEBUG,
+                            'filename'    => 'data/log/application.log',
+                            'filesize'    => 2.5,
+                            'compression' => 9,
+                            'level'       => Logger::DEBUG,
                         ],
                     ],
                     'fire_php' => new \Monolog\Handler\FirePHPHandler(),

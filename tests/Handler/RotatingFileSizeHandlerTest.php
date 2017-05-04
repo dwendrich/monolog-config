@@ -96,6 +96,19 @@ class RotatingFileSizeHandlerTest extends TestCase
         $this->assertFileExists($expectedRotationFileName);
     }
 
+    public function testCompressionLevelNormalization()
+    {
+        $handler = new RotatingFileSizeHandler(
+            self::TMP_LOG_FILE
+        );
+
+        $handler->setGzipCompressionLevel(-10);
+        $this->assertEquals(0, $handler->getGzipCompressionLevel());
+
+        $handler->setGzipCompressionLevel(20);
+        $this->assertEquals(9, $handler->getGzipCompressionLevel());
+    }
+
     /**
      * @depends testLogFileSizeIsExceededAndFirstRotationFileIsCreated
      */

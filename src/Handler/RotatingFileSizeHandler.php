@@ -46,12 +46,33 @@ class RotatingFileSizeHandler extends StreamHandler
         parent::__construct($filename, $level, $bubble, $filePermission, $useLocking);
     }
 
+    private function normalizeCompressionLevel(int $level): int
+    {
+        $level = (int)$level;
+
+        // normalize level
+        if ($level < 0) {
+            $level = 0;
+        }
+
+        if ( $level > 9 ) {
+            $level = 9;
+        }
+
+        return $level;
+    }
+
     /**
      * @param int $level
      */
-    public function setGzipCompressionlevel(int $level)
+    public function setGzipCompressionLevel(int $level)
     {
-        $this->gzipCompressionLevel = (int)$level;
+        $this->gzipCompressionLevel = $this->normalizeCompressionLevel($level);
+    }
+
+    public function getGzipCompressionLevel(): int
+    {
+        return $this->gzipCompressionLevel;
     }
 
     protected function mustRotate()
