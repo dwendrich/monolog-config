@@ -60,10 +60,25 @@ class RotatingFileSizeHandlerTest extends TestCase
         $this->assertFileExists(self::TMP_LOG_FILE);
     }
 
+    public function testLogFileSizeNotExceeded()
+    {
+        $handler = new RotatingFileSizeHandler(
+            self::TMP_LOG_DIR . '/test-unlimited-size.log',
+            0
+        );
+
+        $handler->handle($this->getRecord('test-message'));
+        $handler->handle($this->getRecord('test-message'));
+        $handler->handle($this->getRecord('test-message'));
+        $handler->handle($this->getRecord('test-message'));
+
+        $this->assertFileExists(self::TMP_LOG_FILE);
+    }
+
     /**
      * @depends testLogFileIsCreated
      */
-    public function testLogFileFirstRotationIsCreated()
+    public function testLogFileSizeIsExceededAndFirstRotationFileIsCreated()
     {
         $handler = new RotatingFileSizeHandler(
             self::TMP_LOG_FILE,
@@ -82,7 +97,7 @@ class RotatingFileSizeHandlerTest extends TestCase
     }
 
     /**
-     * @depends testLogFileFirstRotationIsCreated
+     * @depends testLogFileSizeIsExceededAndFirstRotationFileIsCreated
      */
     public function testLogFileFollowUpRotationCounter()
     {

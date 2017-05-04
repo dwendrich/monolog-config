@@ -1,6 +1,7 @@
 <?php
 namespace MonologConfig;
 
+use MonologConfig\Handler;
 use MonologConfig\Factory\FormatterPluginManagerFactory;
 use MonologConfig\Factory\HandlerPluginManagerFactory;
 use MonologConfig\Factory\LoggerAbstractFactory;
@@ -36,7 +37,7 @@ class ConfigProvider
     {
         return [
             'handler_plugin_manager' => [
-
+                Handler\RotatingFileSizeHandler::class => Handler\Factory\RotatingFileSizeHandlerFactory::class,
             ],
 
             'formatter_plugin_manager' => [
