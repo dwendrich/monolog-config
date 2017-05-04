@@ -37,7 +37,9 @@ class ConfigProvider
     {
         return [
             'handler_plugin_manager' => [
-                Handler\RotatingFileSizeHandler::class => Handler\Factory\RotatingFileSizeHandlerFactory::class,
+                'factories' => [
+                    Handler\RotatingFileSizeHandler::class => Handler\Factory\RotatingFileSizeHandlerFactory::class,
+                ],
             ],
 
             'formatter_plugin_manager' => [
