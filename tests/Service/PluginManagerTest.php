@@ -1,5 +1,5 @@
 <?php
-namespace MonologConfigTest;
+namespace MonologConfig\Test;
 
 use MonologConfig\Service\PluginManager;
 use Monolog\Handler\HandlerInterface;

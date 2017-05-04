@@ -8,7 +8,7 @@ Simply integrate configurable monolog instances into applications using zend-ser
 Based on https://github.com/neeckeloo/MonologModule. 
 
 ## Requirements
-* PHP 5.6, PHP 7.0 or higher
+* PHP 7.0 or higher
 * [Monolog 1.11 or higher](https://www.github.com/Seldaek/monolog)
 * [Zend Framework Service Manager component 3.0.3 or higher](https://github.com/zendframework/zend-servicemanager)
 
