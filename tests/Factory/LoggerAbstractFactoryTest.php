@@ -1,5 +1,5 @@
 <?php
-namespace MonologConfigTest\Factory;
+namespace MonologConfig\Test\Factory;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
