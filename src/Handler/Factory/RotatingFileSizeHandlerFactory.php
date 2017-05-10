@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MonologConfig\Handler\Factory;
 
@@ -7,6 +7,12 @@ use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Monolog\Logger;
 
+/**
+ * Class RotatingFileSizeHandlerFactory
+ *
+ * @package MonologConfig\Handler\Factory
+ * @author Daniel Wendrich <daniel.wendrich@gmail.com>
+ */
 class RotatingFileSizeHandlerFactory
 {
     /**
@@ -26,7 +32,7 @@ class RotatingFileSizeHandlerFactory
         $this->options = array_merge($this->options, $options);
     }
 
-    protected function validateOptions()
+    protected function validateOptions(): void
     {
         if (empty($this->options['filename'])) {
             throw new \InvalidArgumentException(
@@ -41,11 +47,14 @@ class RotatingFileSizeHandlerFactory
      * @param  ContainerInterface $container
      * @param  string $requestedName
      * @param  null|array $options
-     * @return object
+     * @return RotatingFileSizeHandler
      * @throws ContainerException if any other error occurs
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(
+        ContainerInterface $container,
+        string $requestedName,
+        array $options = null
+    ): RotatingFileSizeHandler {
         if ($options !== null) {
             $this->options = array_merge($this->options, $options);
         }

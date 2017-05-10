@@ -16,7 +16,8 @@ class PluginManager extends AbstractPluginManager
      * PluginManager constructor.
      *
      * @param string $expectedInstance
-     * @param \Interop\Container\ContainerInterface|null|\Zend\ServiceManager\ConfigInterface $configInstanceOrParentLocator
+     * @param \Interop\Container\ContainerInterface|null|\Zend\ServiceManager\ConfigInterface
+     *        $configInstanceOrParentLocator
      * @param array $config
      */
     public function __construct($expectedInstance, $configInstanceOrParentLocator = null, array $config = [])

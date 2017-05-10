@@ -5,6 +5,12 @@ namespace MonologConfig\Handler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
+/**
+ * Class RotatingFileSizeHandler
+ *
+ * @package MonologConfig\Handler
+ * @author Daniel Wendrich <daniel.wendrich@gmail.com>
+ */
 class RotatingFileSizeHandler extends StreamHandler
 {
     const FILENAME_TOKEN_FILENAME = '{fileName}';
@@ -50,22 +56,16 @@ class RotatingFileSizeHandler extends StreamHandler
     {
         $level = (int)$level;
 
-        // normalize level
         if ($level < 0) {
             $level = 0;
-        }
-
-        if ( $level > 9 ) {
+        } elseif ($level > 9) {
             $level = 9;
         }
 
         return $level;
     }
 
-    /**
-     * @param int $level
-     */
-    public function setGzipCompressionLevel(int $level)
+    public function setGzipCompressionLevel(int $level): void
     {
         $this->gzipCompressionLevel = $this->normalizeCompressionLevel($level);
     }
@@ -75,7 +75,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return $this->gzipCompressionLevel;
     }
 
-    protected function mustRotate()
+    protected function mustRotate(): bool
     {
         if (! file_exists($this->url)) {
             return false;
@@ -84,7 +84,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return $this->fileSizeExceeded();
     }
 
-    protected function fileSizeExceeded()
+    protected function fileSizeExceeded(): bool
     {
         if ($this->fileSize > 0) {
             // convert file size from mb to bytes
@@ -94,7 +94,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return false;
     }
 
-    public function close()
+    public function close(): void
     {
         parent::close();
 
@@ -103,7 +103,7 @@ class RotatingFileSizeHandler extends StreamHandler
         }
     }
 
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         $this->rotateFile = $this->mustRotate();
 
@@ -114,7 +114,7 @@ class RotatingFileSizeHandler extends StreamHandler
         parent::write($record);
     }
 
-    private function useGzipCompression()
+    private function useGzipCompression(): bool
     {
         return $this->gzipCompressionLevel > 0;
     }
@@ -161,7 +161,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return $formattedFileName;
     }
 
-    private function compressFileContent(string $fileName)
+    private function compressFileContent(string $fileName): void
     {
         $compressedContent = gzencode(
             file_get_contents($fileName),
@@ -177,7 +177,7 @@ class RotatingFileSizeHandler extends StreamHandler
         }
     }
 
-    protected function rotate()
+    protected function rotate(): void
     {
         $rotationFileName = $this->getFormattedFileName();
 
