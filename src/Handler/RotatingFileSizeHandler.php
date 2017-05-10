@@ -65,7 +65,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return $level;
     }
 
-    public function setGzipCompressionLevel(int $level): void
+    public function setGzipCompressionLevel(int $level)
     {
         $this->gzipCompressionLevel = $this->normalizeCompressionLevel($level);
     }
@@ -94,7 +94,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return false;
     }
 
-    public function close(): void
+    public function close()
     {
         parent::close();
 
@@ -103,7 +103,7 @@ class RotatingFileSizeHandler extends StreamHandler
         }
     }
 
-    protected function write(array $record): void
+    protected function write(array $record)
     {
         $this->rotateFile = $this->mustRotate();
 
@@ -161,7 +161,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return $formattedFileName;
     }
 
-    private function compressFileContent(string $fileName): void
+    private function compressFileContent(string $fileName)
     {
         $compressedContent = gzencode(
             file_get_contents($fileName),
@@ -177,7 +177,7 @@ class RotatingFileSizeHandler extends StreamHandler
         }
     }
 
-    protected function rotate(): void
+    protected function rotate()
     {
         $rotationFileName = $this->getFormattedFileName();
 

@@ -32,7 +32,7 @@ class RotatingFileSizeHandlerFactory
         $this->options = array_merge($this->options, $options);
     }
 
-    protected function validateOptions(): void
+    protected function validateOptions()
     {
         if (empty($this->options['filename'])) {
             throw new \InvalidArgumentException(
