@@ -1,5 +1,5 @@
 # monolog-config
-Simply integrate configurable monolog instances into applications using zend-servicemanager.
+Simply integrate configurable monolog instances into applications using laminas-servicemanager.
 
 [![Build Status](https://travis-ci.org/dwendrich/monolog-config.svg?branch=master)](https://travis-ci.org/dwendrich/monolog-config)
 [![Coverage Status](https://img.shields.io/codecov/c/github/dwendrich/monolog-config.svg)](https://codecov.io/gh/dwendrich/monolog-config)
@@ -8,9 +8,9 @@ Simply integrate configurable monolog instances into applications using zend-ser
 Based on https://github.com/neeckeloo/MonologModule. 
 
 ## Requirements
-* PHP 7.0 or higher
+* PHP 7.1 or higher
 * [Monolog 1.11 or higher](https://www.github.com/Seldaek/monolog)
-* [Zend Framework Service Manager component 3.0.3 or higher](https://github.com/zendframework/zend-servicemanager)
+* [Laminas servicemanager component 3.4 or higher](https://docs.laminas.dev/laminas-servicemanager/)
 
 ## Installation
 MonologConfig can be installed with composer. For information on how to get composer or how to use it, please refer to
@@ -18,20 +18,20 @@ MonologConfig can be installed with composer. For information on how to get comp
 
 Installation via command line:
 ```sh
-$ php composer.phar require dwendrich/monolog-config:~0.1
+$ php composer.phar require dwendrich/monolog-config
 ```
 
 Installation via `composer.json` file:
 ```json
 {
     "require": {
-        "dwendrich/monolog-config": "~0.1"
+        "dwendrich/monolog-config": "^1.0"
     }
 }
 ```
-To enable creation of logger instances through zend-servicemanager, three factories have to be registered.
+To enable creation of logger instances through laminas-servicemanager, three factories have to be registered.
 
-As part of a zend-expressive application, for example, you add `ConfigProvider::class` to `config/config.php`:
+As part of a mezzio application, for example, you add `ConfigProvider::class` to `config/config.php`:
 ```php
 $aggregator = new ConfigAggregator([
  
@@ -52,7 +52,7 @@ $aggregator = new ConfigAggregator([
     new PhpFileProvider('config/development.config.php'),
 ], $cacheConfig['config_cache_path']);
 ```
-In case you implement a zend-framework application, add `MonologConfig` key to `config/modules.config.php` or
+In case you implement a laminas mvc application, add `MonologConfig` key to `config/modules.config.php` or
 the modules section in `config/application.config.php` respectively.
 
 ## Usage
@@ -192,9 +192,9 @@ return [
 ];
 ```
 ### Retrieving a logger instance
-You can retrieve a logger instance from zend-servicemanager by its configuration key, for example:
+You can retrieve a logger instance from laminas-servicemanager by its configuration key, for example:
 ```php
-/** @var Zend\ServiceManager\ServiceManager $container */
+/** @var Laminas\ServiceManager\ServiceManager $container */
 $logger = $container->get('Application\Log');
 $logger->debug('debug message');
 ```

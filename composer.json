@@ -1,9 +1,9 @@
 {
     "name": "dwendrich/monolog-config",
-    "description": "Simply integrate configurable monolog instances via zend-servicemanager.",
+    "description": "Simply integrate configurable monolog instances via laminas-servicemanager.",
     "type": "library",
     "keywords": [
-        "zendframework", "zend servicemanager", "monolog", "logger", "log"
+        "laminas", "monolog", "logger", "log"
     ],
     "homepage": "https://github.com/dwendrich/monolog-config",
     "authors": [
@@ -14,9 +14,9 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
         "monolog/monolog": "^1.11",
-        "zendframework/zend-servicemanager": "^3.3"
+        "laminas/laminas-servicemanager": "^3.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",

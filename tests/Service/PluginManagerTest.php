@@ -4,7 +4,7 @@ namespace MonologConfig\Test;
 use MonologConfig\Service\PluginManager;
 use Monolog\Handler\HandlerInterface;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class PluginManagerTest extends TestCase
 {

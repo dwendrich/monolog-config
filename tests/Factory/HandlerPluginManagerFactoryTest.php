@@ -5,7 +5,7 @@ use Monolog\Handler\HandlerInterface;
 use MonologConfig\Factory\HandlerPluginManagerFactory;
 use PHPUnit\Framework\TestCase;
 use MonologConfig\Service\PluginManager;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class HandlerPluginManagerFactoryTest extends TestCase
 {
