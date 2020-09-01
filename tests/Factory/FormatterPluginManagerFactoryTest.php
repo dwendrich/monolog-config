@@ -5,7 +5,7 @@ use Monolog\Formatter\FormatterInterface;
 use MonologConfig\Factory\FormatterPluginManagerFactory;
 use PHPUnit\Framework\TestCase;
 use MonologConfig\Service\PluginManager;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class FormatterPluginManagerFactoryTest extends TestCase
 {

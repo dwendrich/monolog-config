@@ -1,8 +1,7 @@
 <?php
 namespace MonologConfig\Service;
 
-use Zend\ServiceManager\AbstractPluginManager;
-use Zend\ServiceManager\Exception\InvalidServiceException;
+use Laminas\ServiceManager\AbstractPluginManager;
 
 /**
  * Class PluginManager

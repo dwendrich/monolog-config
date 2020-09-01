@@ -15,7 +15,7 @@ use MonologConfig\Handler\RotatingFileSizeHandler;
 use MonologConfig\Handler\Factory\RotatingFileSizeHandlerFactory;
 use MonologConfig\Service\PluginManager;
 use PHPUnit\Framework\TestCase;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 class LoggerAbstractFactoryTest extends TestCase
 {
