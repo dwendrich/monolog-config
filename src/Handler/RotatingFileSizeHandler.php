@@ -94,7 +94,7 @@ class RotatingFileSizeHandler extends StreamHandler
         return false;
     }
 
-    public function close()
+    public function close(): void
     {
         parent::close();
 
@@ -103,7 +103,7 @@ class RotatingFileSizeHandler extends StreamHandler
         }
     }
 
-    protected function write(array $record)
+    protected function write(array $record): void
     {
         $this->rotateFile = $this->mustRotate();
 

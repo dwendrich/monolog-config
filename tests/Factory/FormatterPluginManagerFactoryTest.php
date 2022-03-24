@@ -6,9 +6,12 @@ use MonologConfig\Factory\FormatterPluginManagerFactory;
 use PHPUnit\Framework\TestCase;
 use MonologConfig\Service\PluginManager;
 use Laminas\ServiceManager\ServiceManager;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class FormatterPluginManagerFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testPluginManagerCanBeCreated()
     {
         $config = [
@@ -44,17 +47,14 @@ class FormatterPluginManagerFactoryTest extends TestCase
 
     /**
      * @depends testPluginManagerCanBeCreated
-     * @expectedException \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @expectedExceptionMessage A plugin by the name "bar" was not found in the plugin manager MonologConfig\Service\PluginManager
      */
     public function testServiceBarCanNotBeFound($pluginManager)
     {
+        $this->expectException(\Laminas\ServiceManager\Exception\ServiceNotFoundException::class);
+        $this->expectExceptionMessage('A plugin by the name "bar" was not found in the plugin manager MonologConfig\Service\PluginManager');
         $service = $pluginManager->get('bar');
     }
 
-    /**
-     * @expectedException \Zend\ServiceManager\Exception\InvalidServiceException
-     */
     public function testInvalidServiceInstanceThrowsException()
     {
         $config = [
@@ -77,6 +77,7 @@ class FormatterPluginManagerFactoryTest extends TestCase
 
         $this->assertInstanceOf(PluginManager::class, $pluginManager);
 
+        $this->expectException(\Laminas\ServiceManager\Exception\InvalidServiceException::class);
         $service = $pluginManager->get('foo');
     }
 }
