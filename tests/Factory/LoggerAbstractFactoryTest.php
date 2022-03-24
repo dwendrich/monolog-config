@@ -16,9 +16,12 @@ use MonologConfig\Handler\Factory\RotatingFileSizeHandlerFactory;
 use MonologConfig\Service\PluginManager;
 use PHPUnit\Framework\TestCase;
 use Laminas\ServiceManager\ServiceManager;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class LoggerAbstractFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function canCreateServiceWithNameProvider()
     {
         return [
@@ -165,10 +168,6 @@ class LoggerAbstractFactoryTest extends TestCase
         $this->assertContainsOnlyInstancesOf(HandlerInterface::class, $handlers);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Handler configuration must be provided as array.
-     */
     public function testCreateLoggerWithHandlerConfigFailsBecauseOfWrongInstance()
     {
         $config = [
@@ -205,14 +204,13 @@ class LoggerAbstractFactoryTest extends TestCase
 
         $abstractFactory = new LoggerAbstractFactory();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Handler configuration must be provided as array.');
+
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage You must provide a handler class.
-     */
     public function testCreateLoggerWithHandlerConfigFailsBecauseOfNotSpecifiedClassKey()
     {
         $config = [
@@ -251,14 +249,13 @@ class LoggerAbstractFactoryTest extends TestCase
 
         $abstractFactory = new LoggerAbstractFactory();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('You must provide a handler class.');
+
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Logger handler "TestHandler" does not exists.
-     */
     public function testCreateLoggerWithHandlerConfigFailsBecauseOfSpecifiedClassMissing()
     {
         $config = [
@@ -296,6 +293,9 @@ class LoggerAbstractFactoryTest extends TestCase
             ));
 
         $abstractFactory = new LoggerAbstractFactory();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Logger handler "TestHandler" does not exists.');
 
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
@@ -403,10 +403,6 @@ class LoggerAbstractFactoryTest extends TestCase
         $this->assertInstanceOf(\Monolog\Formatter\LineFormatter::class, $handler->getFormatter());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Formatter configuration must be provided as array.
-     */
     public function testCreateLoggerWithFormatterConfigThrowsException()
     {
         $config = [
@@ -450,14 +446,13 @@ class LoggerAbstractFactoryTest extends TestCase
 
         $abstractFactory = new LoggerAbstractFactory();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Formatter configuration must be provided as array.');
+
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage You must provide a formatter class.
-     */
     public function testCreateLoggerWithEmptyFormatterConfigThrowsException()
     {
         $config = [
@@ -501,14 +496,13 @@ class LoggerAbstractFactoryTest extends TestCase
 
         $abstractFactory = new LoggerAbstractFactory();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('You must provide a formatter class.');
+
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Logger formatter "NotExistentPhantasyFormatterClassName" does not exists
-     */
     public function testCreateLoggerWithFormatterConfigAndNotExistentClassThrowsException()
     {
         $config = [
@@ -553,6 +547,9 @@ class LoggerAbstractFactoryTest extends TestCase
             ));
 
         $abstractFactory = new LoggerAbstractFactory();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Logger formatter "NotExistentPhantasyFormatterClassName" does not exists');
 
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
@@ -661,10 +658,6 @@ class LoggerAbstractFactoryTest extends TestCase
         $this->assertEquals(2, count($processors));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Processors must be provided as class name or a callable instance.
-     */
     public function testCreateLoggerWithConfiguredProcessorsThrowsException()
     {
         $config = [
@@ -706,14 +699,13 @@ class LoggerAbstractFactoryTest extends TestCase
 
         $abstractFactory = new LoggerAbstractFactory();
 
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Processors must be provided as class name or a callable instance.');
+
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Processor class "NotExistentPhantasyProcessorClassName" does not exists
-     */
     public function testCreateLoggerWithConfiguredNonExistentProcessorsThrowsException()
     {
         $config = [
@@ -754,6 +746,9 @@ class LoggerAbstractFactoryTest extends TestCase
             ));
 
         $abstractFactory = new LoggerAbstractFactory();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Processor class "NotExistentPhantasyProcessorClassName" does not exists');
 
         /** @var Logger $logger */
         $logger = $abstractFactory->__invoke($container->reveal(), 'foo', []);

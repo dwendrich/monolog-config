@@ -5,9 +5,12 @@ use MonologConfig\Service\PluginManager;
 use Monolog\Handler\HandlerInterface;
 use PHPUnit\Framework\TestCase;
 use Laminas\ServiceManager\ServiceManager;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class PluginManagerTest extends TestCase
 {
+    use ProphecyTrait;
+    
     public function testValidatePlugin()
     {
         $container = $this->prophesize(ServiceManager::class);
@@ -24,9 +27,6 @@ class PluginManagerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @expectedException \Zend\ServiceManager\Exception\InvalidServiceException
-     */
     public function testValidatePluginThrowsException()
     {
         $container = $this->prophesize(ServiceManager::class);
@@ -38,6 +38,8 @@ class PluginManagerTest extends TestCase
         );
 
         $handler = new \stdClass();
+
+        $this->expectException(\Laminas\ServiceManager\Exception\InvalidServiceException::class);
         $pluginManager->validate($handler);
     }
 }

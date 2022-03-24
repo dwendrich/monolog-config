@@ -5,13 +5,16 @@ namespace MonologConfig\Test\Handler;
 use MonologConfig\Handler\RotatingFileSizeHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class RotatingFileSizeHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     const TMP_LOG_DIR  = __DIR__ . '/log';
     const TMP_LOG_FILE = self::TMP_LOG_DIR . '/test.log';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -19,7 +22,7 @@ class RotatingFileSizeHandlerTest extends TestCase
         mkdir(self::TMP_LOG_DIR);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
 

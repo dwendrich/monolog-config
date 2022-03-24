@@ -189,7 +189,7 @@ class LoggerAbstractFactory implements AbstractFactoryInterface
         // if options, try to instantiate via reflection
         if (!empty($options)) {
             $reflection = new \ReflectionClass($config['class']);
-            return call_user_func_array([$reflection, 'newInstance'], $options);
+            return call_user_func_array([$reflection, 'newInstance'], array_values($options));
         }
 
         // create class w/o options
