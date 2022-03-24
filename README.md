@@ -8,8 +8,8 @@ Simply integrate configurable monolog instances into applications using laminas-
 Based on https://github.com/neeckeloo/MonologModule. 
 
 ## Requirements
-* PHP 7.1 or higher
-* [Monolog 1.11 or higher](https://www.github.com/Seldaek/monolog)
+* monolog-config ^2.0 works with PHP 7.2 or higher, [Monolog 2 or higher](https://www.github.com/Seldaek/monolog)
+* for PHP 7.1 support use monolog-config ^1.0
 * [Laminas servicemanager component 3.4 or higher](https://docs.laminas.dev/laminas-servicemanager/)
 
 ## Installation
@@ -25,7 +25,7 @@ Installation via `composer.json` file:
 ```json
 {
     "require": {
-        "dwendrich/monolog-config": "^1.0"
+        "dwendrich/monolog-config": "^2.0"
     }
 }
 ```

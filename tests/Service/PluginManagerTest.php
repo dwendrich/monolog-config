@@ -10,7 +10,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class PluginManagerTest extends TestCase
 {
     use ProphecyTrait;
-    
+
     public function testValidatePlugin()
     {
         $container = $this->prophesize(ServiceManager::class);
